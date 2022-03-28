@@ -71,7 +71,7 @@ func (u *Upbit) createRequest(method, url string, values url.Values, section str
 		}
 		request = req
 
-		request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		request.Header.Set("Content-Type", "application/json")
 	default:
 		return nil, fmt.Errorf("invalid request method")
 	}
@@ -84,7 +84,6 @@ func (u *Upbit) createRequest(method, url string, values url.Values, section str
 	switch section {
 	case ApiSectionExchange:
 		if len(values) != 0 {
-			claim["query"] = values.Encode()
 			u.queryHash.Reset()
 			u.queryHash.Write([]byte(values.Encode()))
 			claim["query_hash"] = hex.EncodeToString(u.queryHash.Sum(nil))
